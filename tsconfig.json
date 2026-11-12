@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "types": ["node"],
+    "paths": {
+      "pdf-cite-locate": ["./src/index.ts"],
+      "pdf-cite-locate/react": ["./src/react/index.tsx"],
+      "pdf-cite-locate/dom": ["./src/dom/index.ts"]
+    }
+  },
+  "include": ["src", "tests", "vitest.config.ts"]
+}
