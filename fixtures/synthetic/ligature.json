@@ -1,0 +1,6 @@
+{
+  "items": [
+    { "str": "The ﬁnal ﬂow of eﬃcient oﬃce work", "dir": "ltr", "transform": [10, 0, 0, 10, 50, 700], "width": 200, "height": 10, "fontName": "f1", "hasEOL": true }
+  ],
+  "styles": { "f1": { "fontFamily": "sans-serif" } }
+}

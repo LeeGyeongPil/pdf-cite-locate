@@ -1,0 +1,6 @@
+{
+  "items": [
+    { "str": "Rotate", "dir": "ttb", "transform": [0, 11, -11, 0, 100, 200], "width": 66, "height": 11, "fontName": "f1", "hasEOL": true }
+  ],
+  "styles": { "f1": { "fontFamily": "sans-serif" } }
+}

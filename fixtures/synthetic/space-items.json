@@ -1,0 +1,10 @@
+{
+  "items": [
+    { "str": "Mixed", "dir": "ltr", "transform": [10, 0, 0, 10, 50, 700], "width": 30, "height": 10, "fontName": "f1", "hasEOL": false },
+    { "str": " ", "dir": "ltr", "transform": [10, 0, 0, 10, 80, 700], "width": 3, "height": 0, "fontName": "f1", "hasEOL": false },
+    { "str": "bold", "dir": "ltr", "transform": [10, 0, 0, 10, 83, 700], "width": 24, "height": 10, "fontName": "f2", "hasEOL": false },
+    { "str": " ", "dir": "ltr", "transform": [10, 0, 0, 10, 107, 700], "width": 3, "height": 0, "fontName": "f1", "hasEOL": false },
+    { "str": "words in one line.", "dir": "ltr", "transform": [10, 0, 0, 10, 110, 700], "width": 90, "height": 10, "fontName": "f1", "hasEOL": true }
+  ],
+  "styles": { "f1": { "fontFamily": "sans-serif" }, "f2": { "fontFamily": "sans-serif" } }
+}

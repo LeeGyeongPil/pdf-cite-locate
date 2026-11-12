@@ -1,0 +1,11 @@
+{
+  "items": [
+    { "type": "beginMarkedContent", "id": "p1", "tag": "P" },
+    { "str": "Marked content ", "dir": "ltr", "transform": [10, 0, 0, 10, 50, 700], "width": 75, "height": 10, "fontName": "f1", "hasEOL": false },
+    { "type": "endMarkedContent" },
+    { "type": "beginMarkedContentProps", "id": "p2", "tag": "Span" },
+    { "str": "entries must be skipped.", "dir": "ltr", "transform": [10, 0, 0, 10, 125, 700], "width": 120, "height": 10, "fontName": "f1", "hasEOL": true },
+    { "type": "endMarkedContent" }
+  ],
+  "styles": { "f1": { "fontFamily": "sans-serif", "ascent": 0.9, "descent": -0.2 } }
+}

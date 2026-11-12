@@ -1,0 +1,7 @@
+{
+  "items": [
+    { "str": "검색 증강 생성은 답변의 근거를", "dir": "ltr", "transform": [12, 0, 0, 12, 60, 700], "width": 170, "height": 12, "fontName": "f1", "hasEOL": true },
+    { "str": "원문 문장에서 찾아 보여 준다.", "dir": "ltr", "transform": [12, 0, 0, 12, 60, 684], "width": 170, "height": 12, "fontName": "f1", "hasEOL": true }
+  ],
+  "styles": { "f1": { "fontFamily": "sans-serif" } }
+}
