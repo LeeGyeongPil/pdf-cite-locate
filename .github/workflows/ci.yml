@@ -1,0 +1,30 @@
+# Offline checks only: no keys, no network access beyond installing dependencies.
+name: ci
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "17 3 * * 1"   # weekly: catch dependency or runtime changes that break the build
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: npm run check:no-pdfjs-import
+      - name: Package contents include every entry point and its types
+        run: |
+          npm pack --dry-run 2>&1 | tee pack.txt
+          for f in dist/index.js dist/index.d.ts dist/react/index.js dist/react/index.d.ts dist/dom/index.js dist/dom/index.d.ts; do
+            grep -q "$f" pack.txt || { echo "missing $f in package"; exit 1; }
+          done
+      - run: npm run example
+      - run: npm run example:build
