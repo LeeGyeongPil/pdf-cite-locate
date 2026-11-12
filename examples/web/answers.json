@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "text": {
+      "en": "A reader wants to see exactly where a cited sentence sits on the page.",
+      "ko": "독자는 인용된 문장이 페이지의 어디에 있는지 정확히 보고 싶어 합니다."
+    },
+    "page": 1,
+    "quote": "Users want to see exactly where the cited sentence lives on the page"
+  },
+  {
+    "id": 2,
+    "text": {
+      "en": "Small typing mistakes in a quote are tolerated by approximate alignment.",
+      "ko": "인용문에 사소한 오타가 있어도 근사 정렬이 찾아 줍니다."
+    },
+    "page": 1,
+    "quote": "Approximate alignment tolerates small typing mistaks in a quoted sentance, so the highlight still lands on the right line"
+  },
+  {
+    "id": 3,
+    "text": {
+      "en": "Reviewers say provenance matters.",
+      "ko": "검토자들은 출처 추적이 중요하다고 말합니다."
+    },
+    "page": 1,
+    "quote": "Reviewers said provenance matters and trust grows slowly."
+  },
+  {
+    "id": 4,
+    "text": {
+      "en": "A rotated page works the same way.",
+      "ko": "회전된 페이지에서도 똑같이 동작합니다."
+    },
+    "page": 2,
+    "quote": "right column second line"
+  },
+  {
+    "id": 5,
+    "text": {
+      "en": "The answer is always valid JSON with three keys.",
+      "ko": "답변은 항상 키 세 개를 가진 올바른 JSON 입니다."
+    },
+    "page": 2,
+    "quote": "The model must always return the answer in valid JSON format with exactly three keys"
+  }
+]

@@ -1,0 +1,21 @@
+:root { font-family: system-ui, sans-serif; color: #1c1c28; }
+body { margin: 0; background: #f4f5f8; }
+header { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 20px; background: #fff; border-bottom: 1px solid #dcdee6; }
+h1 { font-size: 18px; margin: 0; }
+header p { margin: 2px 0 0; font-size: 13px; color: #555; }
+label.lang { font-size: 13px; display: flex; gap: 6px; align-items: center; }
+main { display: grid; grid-template-columns: 380px 1fr; gap: 20px; padding: 20px; align-items: start; }
+section.answer { background: #fff; border: 1px solid #dcdee6; border-radius: 8px; padding: 14px; }
+section.answer h2 { font-size: 15px; margin: 0 0 8px; }
+.note { font-size: 12px; color: #6a5200; background: #fff6d6; border-radius: 6px; padding: 6px 8px; }
+ol.answers { padding-left: 0; list-style: none; margin: 12px 0; }
+ol.answers li { margin-bottom: 10px; line-height: 1.45; }
+button.chip { margin-left: 6px; font-size: 12px; border: 1px solid #6b6bd6; background: #eef; color: #2b2b8a; border-radius: 12px; padding: 1px 8px; cursor: pointer; }
+button.chip[aria-pressed="true"] { background: #2b2b8a; color: #fff; }
+.status { font-size: 13px; padding: 8px; border-radius: 6px; margin-top: 8px; }
+.status.ok { background: #e3f6e8; }
+.status.miss { background: #fde7e7; }
+blockquote { margin: 8px 0 0; padding-left: 10px; border-left: 3px solid #bbb; font-size: 13px; color: #444; }
+.viewer { min-width: 0; overflow: auto; background: #fff; border: 1px solid #dcdee6; border-radius: 8px; padding: 12px; }
+.pager { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; font-size: 13px; }
+.page-box { position: relative; display: inline-block; box-shadow: 0 1px 6px rgba(0,0,0,.2); }

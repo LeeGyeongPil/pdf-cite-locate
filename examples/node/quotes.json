@@ -1,0 +1,6 @@
+[
+  { "note": "verbatim text across a hyphenated line break", "page": 1, "quote": "Users want to see exactly where the cited sentence lives on the page" },
+  { "note": "hand-written typos, as a model might copy it", "page": 1, "quote": "Approximate alignment tolerates small typing mistaks in a quoted sentance, so the highlight still lands on the right line" },
+  { "note": "curly quotes and dash dropped", "page": 1, "quote": "Reviewers said provenance matters and trust grows slowly." },
+  { "note": "not in the document", "page": 2, "quote": "The model must always return the answer in valid JSON format with exactly three keys" }
+]
