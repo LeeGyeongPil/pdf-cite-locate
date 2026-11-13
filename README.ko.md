@@ -123,7 +123,7 @@ flowchart LR
 |---|---|---|---|
 | `createLocator(doc, opts?)` | pdf.js 문서(`numPages` 와 `getPage(n)` 이 있는 것)를 감쌉니다. 페이지를 필요할 때 색인하고 캐시합니다. | `opts.measure?` `Measurer`, `opts.textContentParams?` `getTextContent` 에 전달 | `Locator` |
 | `locator.locate(quote, opts?)` | 인용 하나를 찾습니다. | `opts.pageHint?`, `opts.pages?`, `opts.threshold?`(0.85), `opts.caseSensitive?`(false) | `Promise<LocateResult>` |
-| `locator.locateAll(quotes)` | 인용 여러 개를 찾습니다. | `string[]` | `Promise<LocateResult[]>` |
+| `locator.locateAll(quotes, opts?)` | 인용 여러 개를 찾습니다. | `string[]`, `opts?` 는 locate 와 같음 | `Promise<LocateResult[]>` |
 | `locator.indexedPages()` | 지금까지 색인한 페이지 번호. | 없음 | `number[]` |
 | `buildPageIndex(textContent, { pageNumber, measure? })` | 한 페이지의 색인을 만듭니다. 텍스트 내용을 이미 가진 경우에 씁니다. | `TextContentLike` | `PageIndex` |
 | `locateInIndexes(indexes, quote, opts?)` | 만들어 둔 색인에서 동기로 찾습니다. | `PageIndex[]`, 인용, `LocateOptions` | `LocateResult` |
@@ -147,7 +147,7 @@ flowchart LR
 
 ### 오류 처리
 
-잘못된 입력은 고치는 방법을 알려 주는 메시지와 함께 `LocateError` 를 던집니다. `INVALID_PAGE` 는 `buildPageIndex` 에 1 이상의 정수가 아닌 `pageNumber` 를 줄 때, `createLocator` 에 pdf.js 문서가 아닌 것을 줄 때, `locateInIndexes` 에 `PageIndex` 객체가 아닌 것을 줄 때 발생합니다. `INVALID_OPTIONS` 는 `locateAll` 에 문자열 배열이 아닌 값(문자열 하나, `null`, 숫자 등)을 줄 때 발생합니다. 페이지 텍스트가 인용 길이 × 임계값보다 짧으면 임계값에 닿을 수 없으므로 근사 정렬이 그 페이지를 건너뜁니다. 아주 긴 인용을 짧은 페이지에 대어도 빠르게 끝납니다.
+잘못된 입력은 고치는 방법을 알려 주는 메시지와 함께 `LocateError` 를 던집니다. `INVALID_PAGE` 는 `buildPageIndex` 에 1 이상의 정수가 아닌 `pageNumber` 를 줄 때, `createLocator` 에 pdf.js 문서가 아닌 것을 줄 때, `locateInIndexes` 에 `PageIndex` 객체가 아닌 것을 줄 때 발생합니다. `INVALID_OPTIONS` 는 `locateAll` 에 문자열 배열이 아닌 값(문자열 하나, `null`, 숫자 등)을 줄 때, 빈 `pages` 배열(검색할 페이지 없음)이나 페이지 번호가 아닌 `pageHint` 를 줄 때, 그리고 `createLocator` 에서만 문서 밖 페이지를 `pages` 에 줄 때 발생합니다(`locateInIndexes` 는 상한을 검사하지 않습니다). 페이지 텍스트가 인용 길이 × 임계값보다 짧으면 임계값에 닿을 수 없으므로 근사 정렬이 그 페이지를 건너뜁니다. 아주 긴 인용을 짧은 페이지에 대어도 빠르게 끝납니다.
 
 ## 정밀도
 

@@ -123,7 +123,7 @@ The pages are indexed lazily and cached. With a `pageHint`, the hint page is sea
 |---|---|---|---|
 | `createLocator(doc, opts?)` | Wraps a pdf.js document (anything with `numPages` and `getPage(n)`). Indexes pages lazily and caches them. | `opts.measure?` a `Measurer`, `opts.textContentParams?` passed to `getTextContent` | `Locator` |
 | `locator.locate(quote, opts?)` | Finds one quote. | `opts.pageHint?`, `opts.pages?`, `opts.threshold?` (0.85), `opts.caseSensitive?` (false) | `Promise<LocateResult>` |
-| `locator.locateAll(quotes)` | Same, for a list of quotes. | `string[]` | `Promise<LocateResult[]>` |
+| `locator.locateAll(quotes, opts?)` | Same, for a list of quotes. | `string[]`, `opts?` as in locate | `Promise<LocateResult[]>` |
 | `locator.indexedPages()` | Which pages have been indexed so far. | none | `number[]` |
 | `buildPageIndex(textContent, { pageNumber, measure? })` | Builds the index of one page. Use it when you already have the text content. | `TextContentLike` | `PageIndex` |
 | `locateInIndexes(indexes, quote, opts?)` | Synchronous search over ready-made indexes. | `PageIndex[]`, quote, `LocateOptions` | `LocateResult` |
@@ -147,7 +147,7 @@ The pages are indexed lazily and cached. With a `pageHint`, the hint page is sea
 
 ### Error handling
 
-Invalid input throws a `LocateError` whose message says how to fix it. `INVALID_PAGE` is thrown when `buildPageIndex` gets a `pageNumber` that is not an integer of 1 or more, when `createLocator` gets something that is not a pdf.js document, or when `locateInIndexes` gets something other than `PageIndex` objects. `INVALID_OPTIONS` is thrown when `locateAll` gets something that is not an array of strings (a single string, `null` or a number). A page whose text is shorter than the quote length times the threshold cannot reach the threshold, so the approximate alignment skips it; this keeps a very long quote against short pages fast.
+Invalid input throws a `LocateError` whose message says how to fix it. `INVALID_PAGE` is thrown when `buildPageIndex` gets a `pageNumber` that is not an integer of 1 or more, when `createLocator` gets something that is not a pdf.js document, or when `locateInIndexes` gets something other than `PageIndex` objects. `INVALID_OPTIONS` is thrown when `locateAll` gets something that is not an array of strings (a single string, `null` or a number),, when `pages` is an empty array (no page to search) or `pageHint` is not a page number, and, from `createLocator` only, when `pages` has a page beyond the document (`locateInIndexes` does not check the upper bound). A page whose text is shorter than the quote length times the threshold cannot reach the threshold, so the approximate alignment skips it; this keeps a very long quote against short pages fast.
 
 ## Precision
 
