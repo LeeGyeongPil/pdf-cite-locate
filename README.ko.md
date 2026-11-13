@@ -147,7 +147,7 @@ flowchart LR
 
 ### 오류 처리
 
-잘못된 입력은 고치는 방법을 알려 주는 메시지와 함께 `LocateError` 를 던집니다. `INVALID_PAGE` 는 `buildPageIndex` 에 1 이상의 정수가 아닌 `pageNumber` 를 줄 때, `createLocator` 에 pdf.js 문서가 아닌 것을 줄 때, `locateInIndexes` 에 `PageIndex` 객체가 아닌 것을 줄 때 발생합니다. 페이지 텍스트가 인용 길이 × 임계값보다 짧으면 임계값에 닿을 수 없으므로 근사 정렬이 그 페이지를 건너뜁니다. 아주 긴 인용을 짧은 페이지에 대어도 빠르게 끝납니다.
+잘못된 입력은 고치는 방법을 알려 주는 메시지와 함께 `LocateError` 를 던집니다. `INVALID_PAGE` 는 `buildPageIndex` 에 1 이상의 정수가 아닌 `pageNumber` 를 줄 때, `createLocator` 에 pdf.js 문서가 아닌 것을 줄 때, `locateInIndexes` 에 `PageIndex` 객체가 아닌 것을 줄 때 발생합니다. `INVALID_OPTIONS` 는 `locateAll` 에 문자열 배열이 아닌 값(문자열 하나, `null`, 숫자 등)을 줄 때 발생합니다. 페이지 텍스트가 인용 길이 × 임계값보다 짧으면 임계값에 닿을 수 없으므로 근사 정렬이 그 페이지를 건너뜁니다. 아주 긴 인용을 짧은 페이지에 대어도 빠르게 끝납니다.
 
 ## 정밀도
 
@@ -223,7 +223,7 @@ Vite 가 출력하는 주소를 엽니다. 화면 언어는 `?lang=en|ko`, 그�
 ## 한계
 
 - 읽기 순서는 콘텐츠 스트림 순서입니다. 여러 단 페이지에서는 근사 일치가 단을 넘나들며 헷갈릴 수 있습니다.
-- 두 페이지에 걸친 인용, 말줄임으로 잘린 인용, DOM Range 를 통한 글자 단위 정밀도는 0.1.0 에 없습니다.
+- 두 페이지에 걸친 인용, 말줄임으로 잘린 인용, DOM Range 를 통한 글자 단위 정밀도는 아직 지원하지 않습니다.
 - 측정 함수가 없으면 x 위치는 추정값입니다(`approx: true`).
 
 ## 버전·호환성
@@ -234,7 +234,7 @@ Vite 가 출력하는 주소를 엽니다. 화면 언어는 `?lang=en|ko`, 그�
 
 ```bash
 npm install
-npm test              # 테스트 파일 11개, 테스트 60개
+npm test
 npm run typecheck
 npm run build
 npm run check:no-pdfjs-import

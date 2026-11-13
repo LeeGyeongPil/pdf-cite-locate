@@ -147,7 +147,7 @@ The pages are indexed lazily and cached. With a `pageHint`, the hint page is sea
 
 ### Error handling
 
-Invalid input throws a `LocateError` whose message says how to fix it. `INVALID_PAGE` is thrown when `buildPageIndex` gets a `pageNumber` that is not an integer of 1 or more, when `createLocator` gets something that is not a pdf.js document, or when `locateInIndexes` gets something other than `PageIndex` objects. A page whose text is shorter than the quote length times the threshold cannot reach the threshold, so the approximate alignment skips it; this keeps a very long quote against short pages fast.
+Invalid input throws a `LocateError` whose message says how to fix it. `INVALID_PAGE` is thrown when `buildPageIndex` gets a `pageNumber` that is not an integer of 1 or more, when `createLocator` gets something that is not a pdf.js document, or when `locateInIndexes` gets something other than `PageIndex` objects. `INVALID_OPTIONS` is thrown when `locateAll` gets something that is not an array of strings (a single string, `null` or a number). A page whose text is shorter than the quote length times the threshold cannot reach the threshold, so the approximate alignment skips it; this keeps a very long quote against short pages fast.
 
 ## Precision
 
@@ -223,7 +223,7 @@ Checked 2026-11-12 against the linked pages; these tools change, so read their c
 ## Limitations
 
 - Reading order is the content stream order. On multi-column pages an approximate match can be misled across columns.
-- A quote that spans two pages, an ellipsis-truncated quote, and per-character precision through DOM ranges are not in 0.1.0.
+- A quote that spans two pages, an ellipsis-truncated quote, and per-character precision through DOM ranges are not supported yet.
 - Without a measurer, x positions are estimates (`approx: true`).
 
 ## Versioning and compatibility
@@ -234,7 +234,7 @@ Checked 2026-11-12 against the linked pages; these tools change, so read their c
 
 ```bash
 npm install
-npm test              # 11 test files, 60 tests
+npm test
 npm run typecheck
 npm run build
 npm run check:no-pdfjs-import
