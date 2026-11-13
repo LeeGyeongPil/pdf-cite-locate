@@ -3,6 +3,11 @@
 All notable changes to this project are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [0.1.2] - 2026-11-13
+
+### Fixed
+- An empty `pages` array (no page to search) now throws `LocateError` (`INVALID_OPTIONS`) from `locate`, `locateAll` and `locateInIndexes` instead of returning a misleading `{ found: false, reason: "no-text-layer" }`.
+
 ## [0.1.1] - 2026-11-13
 
 ### Fixed
@@ -19,5 +24,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - Node example and a Vite + react-pdf web example (English / Korean).
 - Fixtures generated offline with pdf-lib; tests run against pdfjs-dist 6.3.289 and 6.5.438.
 
+[0.1.2]: https://github.com/LeeGyeongPil/pdf-cite-locate/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/LeeGyeongPil/pdf-cite-locate/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/LeeGyeongPil/pdf-cite-locate/releases/tag/v0.1.0

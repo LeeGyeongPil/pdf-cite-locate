@@ -1,6 +1,6 @@
 {
   "name": "pdf-cite-locate",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Locate RAG citation strings inside pdf.js text content: approximate matching, line rectangles, viewport coordinates, optional React overlay. Zero dependencies, does not import pdfjs.",
   "license": "MIT",
   "type": "module",
