@@ -66,8 +66,13 @@ export function createLocator(doc: DocumentLike, options: LocatorOptions = {}): 
   return {
     locate,
     async locateAll(quotes, opts) {
+      const list: unknown = quotes;
+      if (typeof list === "string" || list == null || typeof (list as Iterable<unknown>)[Symbol.iterator] !== "function") {
+        throw new LocateError("INVALID_OPTIONS", "locateAll expects an array of strings.");
+      }
+      const items = [...(list as Iterable<string>)];
       const out: LocateResult[] = [];
-      for (const q of quotes) out.push(await locate(q, opts));
+      for (const q of items) out.push(await locate(q, opts));
       return out;
     },
     indexedPages: () => [...cache.keys()].sort((a, b) => a - b),

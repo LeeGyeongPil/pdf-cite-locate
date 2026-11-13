@@ -115,3 +115,32 @@ describe("page hint and cache", () => {
     expect(performance.now() - started).toBeLessThan(5000);
   });
 });
+
+describe("locateAll input validation", () => {
+  const doc = (): DocumentLike & { calls: number } => {
+    const d = {
+      calls: 0,
+      numPages: 1,
+      async getPage() {
+        d.calls++;
+        return { async getTextContent(): Promise<TextContentLike> { return { items: [], styles: {} } as unknown as TextContentLike; } };
+      },
+    };
+    return d as unknown as DocumentLike & { calls: number };
+  };
+
+  it.each([["string", "abc"], ["number", 42], ["undefined", undefined], ["null", null]])("rejects %s", async (_n, v) => {
+    const d = doc();
+    const loc = createLocator(d);
+    await expect(loc.locateAll(v as never)).rejects.toMatchObject({ code: "INVALID_OPTIONS" });
+    await expect(loc.locateAll(v as never)).rejects.toBeInstanceOf(LocateError);
+    expect(loc.indexedPages()).toEqual([]);
+    expect(d.calls).toBe(0);
+  });
+
+  it("accepts a Set of strings", async () => {
+    const loc = createLocator(doc());
+    const res = await loc.locateAll(new Set(["a", "b"]) as never);
+    expect(res).toHaveLength(2);
+  });
+});
