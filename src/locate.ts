@@ -36,6 +36,9 @@ export function prepareQuery(quote: string, options: LocateOptions = {}): Prepar
   if (pages !== undefined && !(Array.isArray(pages) && pages.every((p) => Number.isInteger(p) && p >= 1))) {
     throw new LocateError("INVALID_OPTIONS", "pages must be an array of 1-based page numbers.");
   }
+  if (pages !== undefined && pages.length === 0) {
+    throw new LocateError("INVALID_OPTIONS", "pages must contain at least one page number.");
+  }
   return {
     normalized: normalizeText(quote, { caseSensitive }),
     trimmed: quote.trim(),
