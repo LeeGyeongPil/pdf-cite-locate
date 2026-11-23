@@ -66,6 +66,8 @@ interface Span {
   end: number;
   score: number;
   method: LocateMethod;
+  /** Set for matches found in the hyphen-kept view: matchedText shows dropped line-end hyphens. */
+  hyphens?: { tail: boolean };
 }
 
 function compactOf(index: PageIndex, caseSensitive: boolean): { text: string; at: number[] } {
@@ -91,8 +93,64 @@ function trimSpan(hay: string, start: number, end: number): [number, number] {
   return [start, end];
 }
 
-function displayText(index: PageIndex, start: number, end: number): string {
-  return index.raw.slice(start, end).join("");
+function displayText(index: PageIndex, start: number, end: number, hyphens?: { tail: boolean }): string {
+  if (!hyphens) return index.raw.slice(start, end).join("");
+  let out = "";
+  for (let i = start; i < end; i++) {
+    out += index.raw[i];
+    if (index.hyphenAfter[i] && (i < end - 1 || hyphens.tail)) out += "-";
+  }
+  return out;
+}
+
+/** Text with the dropped line-end hyphens put back; `at` maps each character to its original index. */
+function hyphenViewOf(index: PageIndex, caseSensitive: boolean): { text: string; at: number[]; ins: boolean[] } {
+  index.cache.hyphen ??= new Map();
+  let view = index.cache.hyphen.get(caseSensitive);
+  if (view) return view;
+  const hay = caseSensitive ? index.cased : index.text;
+  let text = "";
+  const at: number[] = [];
+  const ins: boolean[] = [];
+  for (let i = 0; i < hay.length; i++) {
+    text += hay[i];
+    at.push(i);
+    ins.push(false);
+    if (index.hyphenAfter[i]) {
+      text += "-";
+      at.push(i);
+      ins.push(true);
+    }
+  }
+  view = { text, at, ins };
+  index.cache.hyphen.set(caseSensitive, view);
+  return view;
+}
+
+/** Fallback for quotes printed with a line-end hyphen ("well-known"): same two steps on the hyphen-kept view. */
+function findInHyphenView(index: PageIndex, query: PreparedQuery): Span | null {
+  if (!query.normalized.includes("-") || !index.hyphenAfter.includes(1)) return null;
+  const view = hyphenViewOf(index, query.caseSensitive);
+  const toSpan = (from: number, to: number): Span => {
+    const lastIns = view.ins[to] as boolean;
+    const start = (view.at[from] as number) + (view.ins[from] ? 1 : 0);
+    const end = (view.at[to] as number) + 1;
+    return { start, end, score: 1, method: "normalized", hyphens: { tail: lastIns } };
+  };
+  let found = view.text.indexOf(query.normalized);
+  if (found >= 0) return toSpan(found, found + query.normalized.length - 1);
+  const needle = query.normalized.replace(/ /g, "");
+  if (needle === "") return null;
+  let text = "";
+  const pos: number[] = [];
+  for (let i = 0; i < view.text.length; i++) {
+    if (view.text[i] === " ") continue;
+    text += view.text[i];
+    pos.push(i);
+  }
+  found = text.indexOf(needle);
+  if (found < 0) return null;
+  return toSpan(pos[found] as number, pos[found + needle.length - 1] as number);
 }
 
 function isExact(index: PageIndex, query: PreparedQuery, start: number, end: number): boolean {
@@ -113,7 +171,7 @@ export function findExactOnPage(index: PageIndex, query: PreparedQuery): Span | 
   if (needle === "") return null;
   const compact = compactOf(index, query.caseSensitive);
   const found = compact.text.indexOf(needle);
-  if (found < 0) return null;
+  if (found < 0) return findInHyphenView(index, query);
   const start = compact.at[found] as number;
   const end = (compact.at[found + needle.length - 1] as number) + 1;
   return { start, end, score: 1, method: "normalized" };
@@ -126,7 +184,7 @@ function toFound(index: PageIndex, span: Span): LocateFound {
     page: index.page,
     score: span.score,
     method: span.method,
-    matchedText: displayText(index, span.start, span.end),
+    matchedText: displayText(index, span.start, span.end, span.hyphens),
     rects,
     approx,
   };

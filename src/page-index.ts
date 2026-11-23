@@ -38,7 +38,9 @@ export interface PageIndex {
   /** true when the page has no text at all (scanned page). */
   empty: boolean;
   /** Lazily built caches, see align.ts and locate.ts. */
-  cache: { grams?: Map<boolean, Map<string, number[]>>; compact?: Map<boolean, { text: string; at: number[] }> };
+  cache: { grams?: Map<boolean, Map<string, number[]>>; compact?: Map<boolean, { text: string; at: number[] }>;
+    hyphen?: Map<boolean, { text: string; at: number[]; ins: boolean[] }>;
+  };
 }
 
 export interface BuildPageIndexOptions {
