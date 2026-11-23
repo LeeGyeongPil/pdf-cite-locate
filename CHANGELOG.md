@@ -5,6 +5,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-11-23
+
+### Fixed
+- A quote that contains a line-end hyphen exactly as printed ("well-known" across a line break) is now found with method `normalized` and score 1, and `matchedText` keeps the hyphen. Quotes without the hyphen still match as before.
+
 ## [0.1.3] - 2026-11-23
 
 ### Fixed
@@ -31,6 +36,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - Node example and a Vite + react-pdf web example (English / Korean).
 - Fixtures generated offline with pdf-lib; tests run against pdfjs-dist 6.3.289 and 6.5.438.
 
+[0.1.4]: https://github.com/LeeGyeongPil/pdf-cite-locate/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/LeeGyeongPil/pdf-cite-locate/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/LeeGyeongPil/pdf-cite-locate/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/LeeGyeongPil/pdf-cite-locate/compare/v0.1.0...v0.1.1
