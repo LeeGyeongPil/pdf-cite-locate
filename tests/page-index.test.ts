@@ -87,3 +87,38 @@ describe("page number validation", () => {
     expect(() => buildPageIndex({ items: [] }, { pageNumber })).toThrowError(expect.objectContaining({ code: "INVALID_PAGE" }));
   });
 });
+
+describe("decomposed (NFD) vs precomposed (NFC) text", () => {
+  const page = (str: string): TextContentLike => ({
+    items: [{ str, transform: [10, 0, 0, 10, 0, 0], width: str.length * 5, height: 10 }],
+    styles: {},
+  });
+  const cases = [
+    ["latin", "Résumé naïve café entrée"],
+    ["hangul", "검색 증강 생성은 출처 문장을 보여준다"],
+  ] as const;
+
+  it("normalizeText treats NFD and NFC as equal", () => {
+    for (const [, s] of cases) {
+      expect(normalizeText(s.normalize("NFD"))).toBe(normalizeText(s.normalize("NFC")));
+    }
+    expect(normalizeText("café".normalize("NFD"))).toBe(normalizeText("café"));
+  });
+
+  for (const [name, s] of cases) {
+    for (const [pageForm, quoteForm] of [["NFD", "NFC"], ["NFC", "NFD"]] as const) {
+      it(`${name}: ${pageForm} page finds ${quoteForm} quote`, () => {
+        const pageText = s.normalize(pageForm);
+        const index = buildPageIndex(page(pageText), { pageNumber: 1 });
+        const result = locateInIndexes([index], s.normalize(quoteForm));
+        expect(result.found).toBe(true);
+        if (!result.found) return;
+        expect(["exact", "normalized"]).toContain(result.method);
+        expect(result.score).toBe(1);
+        // The highlight stays inside the one text item and covers the drawn text.
+        expect(result.matchedText).toBe(pageText);
+        expect(result.rects).toHaveLength(1);
+      });
+    }
+  }
+});

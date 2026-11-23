@@ -1,5 +1,5 @@
 import { LocateError } from "./errors.js";
-import { foldChar, lowerChar } from "./normalize.js";
+import { clusters, foldCluster, lowerChar } from "./normalize.js";
 import type { Measurer, TextContentLike, TextItemLike, TextStyleLike } from "./types.js";
 
 /** A text item kept in the index (marked-content entries are dropped). */
@@ -103,11 +103,10 @@ export function buildPageIndex(content: TextContentLike, options: BuildPageIndex
     const idx = items.length;
     items.push({ str: entry.str, transform: entry.transform.slice(0, 6), width, height, fontName: entry.fontName });
 
-    let k = 0;
-    for (const ch of entry.str) {
-      const at = k;
-      k += ch.length;
-      const folded = foldChar(ch);
+    for (const seq of clusters(entry.str)) {
+      const at = seq.at;
+      const ch = seq.str;
+      const folded = foldCluster(ch);
       if (folded === "") {
         // Soft hyphens and zero-width characters vanish but later characters stay lossless.
         continue;

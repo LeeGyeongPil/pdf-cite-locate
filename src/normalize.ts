@@ -27,6 +27,37 @@ export function foldChar(ch: string): string {
   return out;
 }
 
+/** True for code points that compose with the previous character: combining marks and Hangul medial/final jamo. */
+const JOINS_PREVIOUS = /^[\p{M}\u1160-\u11FF\uD7B0-\uD7FF]$/u;
+
+/**
+ * Splits text into combining sequences (a base code point plus the marks or Hangul jamo that
+ * compose with it). `at` is the UTF-16 offset of the first code point. Internal helper.
+ */
+export function* clusters(text: string): Generator<{ str: string; at: number }> {
+  let start = 0;
+  let cur = "";
+  let k = 0;
+  for (const ch of text) {
+    if (cur !== "" && !JOINS_PREVIOUS.test(ch)) {
+      yield { str: cur, at: start };
+      cur = "";
+    }
+    if (cur === "") start = k;
+    cur += ch;
+    k += ch.length;
+  }
+  if (cur !== "") yield { str: cur, at: start };
+}
+
+/** Folds a whole combining sequence: NFKC over the sequence, then {@link foldChar} on each result character. */
+export function foldCluster(seq: string): string {
+  if (seq.length === 1 || [...seq].length === 1) return foldChar(seq);
+  let out = "";
+  for (const c of seq.normalize("NFKC")) out += foldChar(c);
+  return out;
+}
+
 /** Lower-cases one folded character without ever changing its length. */
 export function lowerChar(ch: string): string {
   const lower = ch.toLowerCase();
@@ -41,8 +72,8 @@ export function lowerChar(ch: string): string {
 export function normalizeText(text: string, options: { caseSensitive?: boolean } = {}): string {
   const parts: string[] = [];
   let lastIsSpace = true; // true at the start so leading whitespace is dropped
-  for (const ch of text) {
-    for (const f of foldChar(ch)) {
+  for (const seq of clusters(text)) {
+    for (const f of foldCluster(seq.str)) {
       if (f === " ") {
         if (lastIsSpace) continue;
         lastIsSpace = true;
